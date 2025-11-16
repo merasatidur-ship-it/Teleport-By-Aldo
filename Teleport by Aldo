@@ -1,0 +1,57 @@
+-- Teleport UI by geprek ayam ddd 😎
+-- Made for Codex Executor
+
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Window = Rayfield:CreateWindow({
+    Name = "Teleport UI",
+    LoadingTitle = "Teleport System",
+    LoadingSubtitle = "By geprek ayam ddd",
+    ConfigurationSaving = {
+        Enabled = false
+    },
+})
+
+-- Variabel posisi yang disimpan
+local savedPosition = nil
+
+-- Buat Tab
+local Tab = Window:CreateTab("Teleport", 4483362458) -- icon id optional
+
+-- Tombol Save Position
+Tab:CreateButton({
+    Name = "💾 Save Position",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+        if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+            savedPosition = player.Character.HumanoidRootPart.Position
+            Rayfield:Notify({
+                Title = "Position Saved!",
+                Content = "Posisi kamu sudah disimpan ✅",
+                Duration = 3
+            })
+        end
+    end,
+})
+
+-- Tombol Teleport
+Tab:CreateButton({
+    Name = "⚡ Teleport",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+        if savedPosition and player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+            player.Character.HumanoidRootPart.CFrame = CFrame.new(savedPosition)
+            Rayfield:Notify({
+                Title = "Teleported!",
+                Content = "Kamu sudah teleport ke posisi tersimpan ✨",
+                Duration = 3
+            })
+        else
+            Rayfield:Notify({
+                Title = "Gagal Teleport ❌",
+                Content = "Belum ada posisi yang disimpan!",
+                Duration = 3
+            })
+        end
+    end,
+})
